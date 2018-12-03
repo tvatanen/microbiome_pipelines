@@ -1,0 +1,10 @@
+{
+  "workflowAssembly.Sample_Path_List": "/home/tvat287/assembly/sample_list.txt",
+  "workflowAssembly.Fastq_Extension": ".fq.gz",
+  "workflowAssembly.qcQualityHuman.ref1": "/home/tvat287/assembly/hg19/Homo_sapiens.1.bt2",
+  "workflowAssembly.qcQualityHuman.ref2": "/home/tvat287/assembly/hg19/Homo_sapiens.2.bt2",
+  "workflowAssembly.qcQualityHuman.ref3": "/home/tvat287/assembly/hg19/Homo_sapiens.3.bt2",
+  "workflowAssembly.qcQualityHuman.ref4": "/home/tvat287/assembly/hg19/Homo_sapiens.4.bt2",
+  "workflowAssembly.qcQualityHuman.ref5": "/home/tvat287/assembly/hg19/Homo_sapiens.rev.1.bt2",
+  "workflowAssembly.qcQualityHuman.ref6": "/home/tvat287/assembly/hg19/Homo_sapiens.rev.2.bt2"
+}
