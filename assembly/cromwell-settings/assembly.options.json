@@ -1,0 +1,5 @@
+{
+    "final_workflow_log_dir": "/home/tvat287/assembly/log",
+    "final_call_logs_dir": "/home/tvat287/assembly/workflow_calss",
+    "workflow_failure_mode": "ContinueWhilePossible"
+}
