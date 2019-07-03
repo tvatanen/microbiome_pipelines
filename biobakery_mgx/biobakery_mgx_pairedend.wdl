@@ -59,6 +59,11 @@ workflow workflowBiobakery {
 		}
 	}
 
+	call kneaddataReadCountTable {
+		input:
+		logFiles=qcQualityHuman.log_file
+	}
+
 	call combineMetaphlan {
 		input:
 		taxProfiles=metaphlan.fileProfile
@@ -114,6 +119,7 @@ task qcAdapters {
 	output {
 		File fileR1 = "${sample}.adapterTrimmed.1.fq.gz"
 		File fileR2 = "${sample}.adapterTrimmed.2.fq.gz"
+
 	}
 	
 	runtime {
@@ -138,7 +144,7 @@ task qcQualityHuman {
 
 	command {
 		kneaddata --input ${file1} --input ${file2} -o . \
-		-db tools-tvat/DATABASES/HG19 --trimmomatic-options "HEADCROP:15 SLIDINGWINDOW:4:15 MINLEN:50" -t 4
+		-db tools-tvat/DATABASES/HG19 --trimmomatic-options "HEADCROP:15 SLIDINGWINDOW:4:15 MINLEN:50" -t 4 --log ${sample}.log
 		rm *trimmed*
 		rm *bowtie2*
 		
@@ -153,6 +159,7 @@ task qcQualityHuman {
 		File fileR2 = "${sample}.adapterTrimmed.1_kneaddata_paired_2.fastq.gz"
 		File fileS1 = "${sample}.adapterTrimmed.1_kneaddata_unmatched_1.fastq.gz"
 		File fileS2 = "${sample}.adapterTrimmed.1_kneaddata_unmatched_2.fastq.gz"
+		File log_file = "${sample}.log"
 	}
 	
 	runtime {
@@ -278,6 +285,34 @@ task regroupHumann2 {
   		disks: "local-disk 50 HDD"
 	}
 
+}
+
+task kneaddataReadCountTable {
+	Array[File] logFiles
+
+	command {
+		mkdir logfiles
+
+		for logfile in $(cat ${write_lines(logFiles)})
+		do
+			cp $logfile logfiles
+		done
+
+		kneaddata_read_count_table --input logfiles/ --output kneaddata_read_count_table.tsv
+
+	}
+
+	output {
+		File kneaddataReadCountTable = "kneaddata_read_count_table.tsv"
+	}
+
+	runtime {
+		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		cpu: 1
+  		memory: "4GB"
+  		preemptible: 2
+  		disks: "local-disk 50 HDD"
+	}
 }
 
 task combineMetaphlan {
