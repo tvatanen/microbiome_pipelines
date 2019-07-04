@@ -123,7 +123,7 @@ task qcAdapters {
 	}
 	
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 1
   		memory: "1GB"
   		preemptible: 2
@@ -163,7 +163,7 @@ task qcQualityHuman {
 	}
 	
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 4
   		memory: "24GB"
   		preemptible: 2
@@ -203,7 +203,7 @@ task metaphlan {
     }
 	
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 1
   		memory: "8GB"
   		preemptible: 2
@@ -241,7 +241,7 @@ task humann2 {
     }
 	
 	runtime {
-		docker:"gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker:"asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 8
   		memory: "24GB"
   		disks: "local-disk 120 HDD"
@@ -278,7 +278,7 @@ task regroupHumann2 {
 	}	
 
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 1
   		memory: "4GB"
   		preemptible: 2
@@ -307,7 +307,7 @@ task kneaddataReadCountTable {
 	}
 
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 1
   		memory: "4GB"
   		preemptible: 2
@@ -327,7 +327,7 @@ task combineMetaphlan {
 	}
 
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 1
   		memory: "4GB"
   		preemptible: 2
@@ -369,7 +369,7 @@ task combineHumann2 {
 	}
 
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 1
   		memory: "100GB"
   		preemptible: 2
@@ -395,7 +395,7 @@ task strainphlanMarkers {
 	}
 
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 2
   		memory: "10GB"
   		preemptible: 2
@@ -419,7 +419,7 @@ task strainphlanClades {
 	}
 
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 1
   		memory: "10GB"
   		preemptible: 2
@@ -458,7 +458,7 @@ task strainphlanTree {
 	}
 
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 16
   		memory: "104GB"
   		preemptible: 2
