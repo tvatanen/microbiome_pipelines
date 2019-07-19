@@ -222,215 +222,237 @@ task humann2 {
 }
 
 task regroupHumann2 {
-	File geneFamilies
-	File refEC
-	File refKO
-	File refPfam
-	File refEggnog
-	File refGO1000
-	String sample
+    File geneFamilies
+    File refEC
+    File refKO
+    File refPfam
+    File refEggnog
+    File refGO1000
+    String sample
 
-	command {
-		humann2_regroup_table -i ${geneFamilies} -c ${refEC} -o ${sample}_ec.tsv
-		humann2_regroup_table -i ${geneFamilies} -c ${refKO} -o ${sample}_ko.tsv
-		humann2_regroup_table -i ${geneFamilies} -c ${refPfam} -o ${sample}_pfam.tsv
-		humann2_regroup_table -i ${geneFamilies} -c ${refEggnog} -o ${sample}_eggnog.tsv
-		humann2_regroup_table -i ${geneFamilies} -c ${refGO1000} -o ${sample}_go1000.tsv
+    command {
+        humann2_regroup_table -i ${geneFamilies} -c ${refEC} -o ${sample}_ec.tsv
+        humann2_regroup_table -i ${geneFamilies} -c ${refKO} -o ${sample}_ko.tsv
+        humann2_regroup_table -i ${geneFamilies} -c ${refPfam} -o ${sample}_pfam.tsv
+        humann2_regroup_table -i ${geneFamilies} -c ${refEggnog} -o ${sample}_eggnog.tsv
+        humann2_regroup_table -i ${geneFamilies} -c ${refGO1000} -o ${sample}_go1000.tsv
 
-	}
+    }
 
-	output {
-		File fileECAbundance = "${sample}_ec.tsv"
-		File fileKOAbundance = "${sample}_ko.tsv"
-		File filePfamAbundance = "${sample}_pfam.tsv"
-		File fileEggnogAbundance = "${sample}_eggnog.tsv"
-		File fileGO1000Abundance = "${sample}_go1000.tsv"
+    output {
+        File fileECAbundance = "${sample}_ec.tsv"
+        File fileKOAbundance = "${sample}_ko.tsv"
+        File filePfamAbundance = "${sample}_pfam.tsv"
+        File fileEggnogAbundance = "${sample}_eggnog.tsv"
+        File fileGO1000Abundance = "${sample}_go1000.tsv"
 
-	}	
+    }   
 
-	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
-		cpu: 1
-  		memory: "4GB"
-  		preemptible: 2
-  		disks: "local-disk 50 HDD"
-	}
+    runtime {
+        docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+        cpu: 1
+        memory: "4GB"
+        preemptible: 2
+        disks: "local-disk 50 HDD"
+    }
 
 }
 
 task kneaddataReadCountTable {
-	Array[File] logFiles
+    Array[File] logFiles
 
-	command {
-		mkdir logfiles
-		for logfile in $(cat ${write_lines(logFiles)})
-		do
-			cp $logfile logfiles
-		done
+    command {
+        mkdir logfiles
 
-		kneaddata_read_count_table --input logfiles/ --output kneaddata_read_count_table.tsv
-	}
+        for logfile in $(cat ${write_lines(logFiles)})
+        do
+            cp $logfile logfiles
+        done
 
-	output {
-		File kneaddataReadCountTable = "kneaddata_read_count_table.tsv"
-	}
+        kneaddata_read_count_table --input logfiles/ --output kneaddata_read_count_table.tsv
 
-	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
-		cpu: 1
-  		memory: "4GB"
-  		preemptible: 2
-  		disks: "local-disk 50 HDD"
-	}
+    }
+
+    output {
+        File kneaddataReadCountTable = "kneaddata_read_count_table.tsv"
+    }
+
+    runtime {
+        docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+        cpu: 1
+        memory: "4GB"
+        preemptible: 2
+        disks: "local-disk 50 HDD"
+    }
 }
 
 task combineMetaphlan {
-	Array[File] taxProfiles
+    Array[File] taxProfiles
 
-	command {
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " taxProfiles} > metaphlan_merged_results.tsv
-	}
+    command {
+        /appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " taxProfiles} > metaphlan_merged_results.tsv
+    }
 
-	output {
-		File metaphlanMerged = "metaphlan_merged_results.tsv"
-	}
+    output {
+        File metaphlanMerged = "metaphlan_merged_results.tsv"
+    }
 
-	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
-		cpu: 1
-  		memory: "4GB"
-  		preemptible: 2
-  		disks: "local-disk 50 HDD"
-	}
+    runtime {
+        docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+        cpu: 1
+        memory: "4GB"
+        preemptible: 2
+        disks: "local-disk 50 HDD"
+    }
 
 
 }
 
 task combineHumann2 {
-	Array[File] filesGeneFamilies
-	Array[File] filesPathways
-	Array[File] filesEC
-	Array[File] filesKO
-	Array[File] filesEggnog
-	Array[File] filesGO1000
-	Array[File] filesPfam
+    Array[File] filesGeneFamilies
+    Array[File] filesPathways
+    Array[File] filesEC
+    Array[File] filesKO
+    Array[File] filesEggnog
+    Array[File] filesGO1000
+    Array[File] filesPfam
 
-	command {
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesGeneFamilies} > genefamilies_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesPathways} > pathways_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesEC} > ec_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesKO} > ko_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesEggnog} > eggnog_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesGO1000} > go1000_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesPfam} > pfam_merged_results.tsv
+    command {
+        mkdir genefamilies
+        cp -t genefamilies ${sep=" " filesGeneFamilies}
+        humann2_join_tables -i genefamilies -o genefamilies_merged_results.tsv
 
-	}
+        mkdir pathways
+        cp -t pathways ${sep=" " filesPathways}
+        humann2_join_tables -i pathways -o pathways_merged_results.tsv
 
-	output {
-		File genefamiliesMerged = "genefamilies_merged_results.tsv"
-		File pathwaysMerged = "pathways_merged_results.tsv"
-		File ecMerged = "ec_merged_results.tsv"
-		File koMerged = "ko_merged_results.tsv"
-		File eggnogMerged = "eggnog_merged_results.tsv"
-		File go1000Merged = "go1000_merged_results.tsv"
-		File pfamMerged = "pfam_merged_results.tsv"
+        mkdir ec
+        cp -t ec ${sep=" " filesEC}
+        humann2_join_tables -i pathways -o ec_merged_results.tsv
 
-	}
+        mkdir ko
+        cp -t ko ${sep=" " filesKO}
+        humann2_join_tables -i ko -o ko_merged_results.tsv
 
-	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
-		cpu: 1
-  		memory: "100GB"
-  		preemptible: 2
-  		disks: "local-disk 500 HDD"
-	}
+        mkdir eggnog
+        cp -t eggnog ${sep=" " filesEggnog}
+        humann2_join_tables -i eggnog -o eggnog_merged_results.tsv
+
+        mkdir go
+        cp -t go ${sep=" " filesGO1000}
+        humann2_join_tables -i go -o go1000_merged_results.tsv
+
+        mkdir pfam
+        cp -t pfam ${sep=" " filesPfam}
+        humann2_join_tables -i pfam -o pfam_merged_results.tsv
+
+    }
+
+    output {
+        File genefamiliesMerged = "genefamilies_merged_results.tsv"
+        File pathwaysMerged = "pathways_merged_results.tsv"
+        File ecMerged = "ec_merged_results.tsv"
+        File koMerged = "ko_merged_results.tsv"
+        File eggnogMerged = "eggnog_merged_results.tsv"
+        File go1000Merged = "go1000_merged_results.tsv"
+        File pfamMerged = "pfam_merged_results.tsv"
+
+    }
+
+    runtime {
+        docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+        cpu: 1
+        memory: "100GB"
+        preemptible: 2
+        disks: "local-disk 500 HDD"
+    }
 
 
 }
 
 task strainphlanMarkers {
-	
-	File sampleBAM
-	String sample
-	
-	command {
-		samtools-0.1.19 view -h ${sampleBAM} -o ${sample}.sam
-		/appdownload/metaphlan2/strainphlan_src/sample2markers.py --min_read_depth 5 --ifn_samples ${sample}.sam --input_type sam --output_dir . --nprocs 2 --verbose --samtools_exe /app/samtools-0.1.19
-	}
+    
+    File sampleBAM
+    String sample
+    
+    command {
+        samtools-0.1.19 view -h ${sampleBAM} -o ${sample}.sam
+        /appdownload/metaphlan2/strainphlan_src/sample2markers.py --min_read_depth 5 --ifn_samples ${sample}.sam --input_type sam --output_dir . --nprocs 2 --verbose --samtools_exe /app/samtools-0.1.19
+    }
 
-	output {
-		
-		File sampleMarker = "${sample}.markers"
-	}
+    output {
+        
+        File sampleMarker = "${sample}.markers"
+    }
 
-	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
-		cpu: 2
-  		memory: "10GB"
-  		preemptible: 2
-  		disks: "local-disk 100 HDD"
-	}
+    runtime {
+        docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+        cpu: 2
+        memory: "10GB"
+        preemptible: 2
+        disks: "local-disk 100 HDD"
+    }
 
 }
 
 task strainphlanClades {
 
-	Array [File] filesSampleMarkers
-	File refPKL
+    Array [File] filesSampleMarkers
+    File refPKL
 
-	command <<<
-		/appdownload/metaphlan2/strainphlan.py --mpa_pkl ${refPKL} --ifn_samples ${sep=' ' filesSampleMarkers} --output_dir . --nprocs_main 1 --print_clades_only > clades.txt
-		cat clades.txt | tr -d "'" | sed 's/,.*//' | sed 's/(//' > clades_edited.txt
-	>>>
+    command <<<
+        /appdownload/metaphlan2/strainphlan.py --mpa_pkl ${refPKL} --ifn_samples ${sep=' ' filesSampleMarkers} --output_dir . --nprocs_main 1 --print_clades_only > clades.txt
+        cat clades.txt | tr -d "'" | sed 's/,.*//' | sed 's/(//' > clades_edited.txt
+    >>>
 
-	output {
-		File cladeList = "clades_edited.txt"
-	}
+    output {
+        File cladeList = "clades_edited.txt"
+    }
 
-	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
-		cpu: 1
-  		memory: "10GB"
-  		preemptible: 2
-  		disks: "local-disk 100 HDD"
-	}
+    runtime {
+        docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+        cpu: 1
+        memory: "10GB"
+        preemptible: 2
+        disks: "local-disk 100 HDD"
+    }
 
 }
 
 task strainphlanTree {
-	String clade
-	File refPKL
-	File refAllMarkers
-	File refStrainPhlanDB
-	Array [File] filesSampleMarkers
+    String clade
+    File refPKL
+    File refAllMarkers
+    File refStrainPhlanDB
+    Array [File] filesSampleMarkers
 
-	command <<<
-		# get the strainphlan database
-    	tar -zxvf ${refStrainPhlanDB} --strip-components=3
-		
-		/appdownload/metaphlan2/strainphlan_src/extract_markers.py --mpa_pkl ${refPKL} --ifn_markers ${refAllMarkers} --clade ${clade} --ofn_markers ${clade}.markers.fasta
+    command <<<
+        # get the strainphlan database
+        tar -zxvf ${refStrainPhlanDB} --strip-components=3
+        
+        /appdownload/metaphlan2/strainphlan_src/extract_markers.py --mpa_pkl ${refPKL} --ifn_markers ${refAllMarkers} --clade ${clade} --ofn_markers ${clade}.markers.fasta
 
-		mkdir ${clade}
+        mkdir ${clade}
 
-    	if [ -d strainphlan_ref/${clade} ]; then
-			/appdownload/metaphlan2/strainphlan.py --mpa_pkl ${refPKL} --ifn_samples ${sep=' ' filesSampleMarkers} --ifn_markers ${clade}.markers.fasta --ifn_ref_genomes strainphlan_ref/${clade}/* --output_dir ${clade} --nprocs_main 16 --clades ${clade}
-		else
-			/appdownload/metaphlan2/strainphlan.py --mpa_pkl ${refPKL} --ifn_samples ${sep=' ' filesSampleMarkers} --ifn_markers ${clade}.markers.fasta --output_dir ${clade} --nprocs_main 16 --clades ${clade}
-		fi
+        if [ -d strainphlan_ref/${clade} ]; then
+            /appdownload/metaphlan2/strainphlan.py --mpa_pkl ${refPKL} --ifn_samples ${sep=' ' filesSampleMarkers} --ifn_markers ${clade}.markers.fasta --ifn_ref_genomes strainphlan_ref/${clade}/* --output_dir ${clade} --nprocs_main 16 --clades ${clade}
+        else
+            /appdownload/metaphlan2/strainphlan.py --mpa_pkl ${refPKL} --ifn_samples ${sep=' ' filesSampleMarkers} --ifn_markers ${clade}.markers.fasta --output_dir ${clade} --nprocs_main 16 --clades ${clade}
+        fi
 
-		tar -czf ${clade}.tar.gz ${clade}
-		
+        tar -czf ${clade}.tar.gz ${clade}
+        
     >>>
-	
-	output {
-		File strainphlanTar = "${clade}.tar.gz"
-	}
+    
+    output {
+        File strainphlanTar = "${clade}.tar.gz"
+    }
 
-	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
-		cpu: 16
-  		memory: "104GB"
-  		preemptible: 2
-  		disks: "local-disk 100 HDD"
-	}
+    runtime {
+        docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+        cpu: 16
+        memory: "104GB"
+        preemptible: 2
+        disks: "local-disk 100 HDD"
+    }
 }
