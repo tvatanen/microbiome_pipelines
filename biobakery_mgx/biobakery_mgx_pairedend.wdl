@@ -347,13 +347,33 @@ task combineHumann2 {
 	Array[File] filesPfam
 
 	command {
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesGeneFamilies} > genefamilies_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesPathways} > pathways_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesEC} > ec_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesKO} > ko_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesEggnog} > eggnog_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesGO1000} > go1000_merged_results.tsv
-		/appdownload/metaphlan2/utils/merge_metaphlan_tables.py ${sep=" " filesPfam} > pfam_merged_results.tsv
+        mkdir genefamilies
+        cp -t genefamilies ${sep=" " filesGeneFamilies}
+        humann2_join_tables -i genefamilies -o genefamilies_merged_results.tsv
+
+        mkdir pathways
+        cp -t pathways ${sep=" " filesPathways}
+        humann2_join_tables -i pathways -o pathways_merged_results.tsv
+
+        mkdir ec
+        cp -t ec ${sep=" " filesEC}
+        humann2_join_tables -i pathways -o ec_merged_results.tsv
+
+        mkdir ko
+        cp -t ko ${sep=" " filesKO}
+        humann2_join_tables -i ko -o ko_merged_results.tsv
+
+        mkdir eggnog
+        cp -t eggnog ${sep=" " filesEggnog}
+        humann2_join_tables -i eggnog -o eggnog_merged_results.tsv
+
+        mkdir go
+        cp -t go ${sep=" " filesGO1000}
+        humann2_join_tables -i go -o go1000_merged_results.tsv
+
+        mkdir pfam
+        cp -t pfam ${sep=" " filesPfam}
+        humann2_join_tables -i pfam -o pfam_merged_results.tsv
 
 	}
 
