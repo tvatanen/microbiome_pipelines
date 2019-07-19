@@ -221,6 +221,8 @@ task humann2 {
 	File refChocophlan
 	File refUniref90
 	String sample
+	Float input_file_size = size(r1, "G") + size(r2, "G") + size(s1, "G") + size(s2, "G")
+
 	
 	command {    	
     	# get the chocophlan database
@@ -243,8 +245,8 @@ task humann2 {
 	runtime {
 		docker:"asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
 		cpu: 8
-  		memory: "24GB"
-  		disks: "local-disk 120 HDD"
+	  	memory: if input_file_size > 3 then "64GB" else "24GB" 
+  		disks: "local-disk 250 HDD"
   		preemptible: 2
 	}
 
