@@ -322,7 +322,7 @@ task combineHumann2 {
     command {
         mkdir genefamilies
         cp -t genefamilies ${sep=" " filesGeneFamilies}
-        humann2_join_tables -i genefamilies -o genefamilies_merged_results.tsv
+        tar -zcvf genefamilies.tar.gz genefamilies
 
         mkdir pathways
         cp -t pathways ${sep=" " filesPathways}
@@ -351,7 +351,7 @@ task combineHumann2 {
     }
 
     output {
-        File genefamiliesMerged = "genefamilies_merged_results.tsv"
+        File genefamiliesMerged = "genefamilies.tar.gz"
         File pathwaysMerged = "pathways_merged_results.tsv"
         File ecMerged = "ec_merged_results.tsv"
         File koMerged = "ko_merged_results.tsv"
