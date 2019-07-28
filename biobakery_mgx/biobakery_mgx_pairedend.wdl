@@ -127,7 +127,9 @@ task qcAdapters {
 		cpu: 1
   		memory: "1GB"
   		preemptible: 2
-  		disks: "local-disk 40 HDD"
+        maxRetries: 3
+        zones: "australia-southeast1-a australia-southeast1-b australia-southeast1-c"
+        disks: "local-disk 40 HDD"
 	}
 }
 
@@ -167,6 +169,8 @@ task qcQualityHuman {
 		cpu: 4
   		memory: "24GB"
   		preemptible: 2
+        maxRetries: 3
+        zones: "australia-southeast1-a australia-southeast1-b australia-southeast1-c"
   		disks: "local-disk 501 HDD"
 	}
 }
@@ -207,6 +211,8 @@ task metaphlan {
 		cpu: 1
   		memory: "8GB"
   		preemptible: 2
+        maxRetries: 3
+        zones: "australia-southeast1-a australia-southeast1-b australia-southeast1-c"
   		disks: "local-disk 50 HDD"
 	}
 
@@ -248,6 +254,8 @@ task humann2 {
 	  	memory: if input_file_size > 3 then "64GB" else "24GB" 
   		disks: "local-disk 250 HDD"
   		preemptible: 2
+        maxRetries: 3
+        zones: "australia-southeast1-a australia-southeast1-b australia-southeast1-c"
 	}
 
 }
@@ -284,6 +292,8 @@ task regroupHumann2 {
 		cpu: 1
   		memory: "4GB"
   		preemptible: 2
+        maxRetries: 3
+        zones: "australia-southeast1-a australia-southeast1-b australia-southeast1-c"
   		disks: "local-disk 50 HDD"
 	}
 
@@ -313,6 +323,8 @@ task kneaddataReadCountTable {
 		cpu: 1
   		memory: "4GB"
   		preemptible: 2
+        maxRetries: 3
+        zones: "australia-southeast1-a australia-southeast1-b australia-southeast1-c"
   		disks: "local-disk 50 HDD"
 	}
 }
@@ -333,6 +345,8 @@ task combineMetaphlan {
 		cpu: 1
   		memory: "4GB"
   		preemptible: 2
+        maxRetries: 3
+        zones: "australia-southeast1-a australia-southeast1-b australia-southeast1-c"
   		disks: "local-disk 50 HDD"
 	}
 
@@ -395,6 +409,8 @@ task combineHumann2 {
 		cpu: 1
   		memory: "100GB"
   		preemptible: 2
+        maxRetries: 3
+        zones: "australia-southeast1-a australia-southeast1-b australia-southeast1-c"
   		disks: "local-disk 500 HDD"
 	}
 
@@ -421,6 +437,8 @@ task strainphlanMarkers {
 		cpu: 2
   		memory: "10GB"
   		preemptible: 2
+        maxRetries: 3
+        zones: "australia-southeast1-a australia-southeast1-b australia-southeast1-c"
   		disks: "local-disk 100 HDD"
 	}
 
@@ -445,6 +463,8 @@ task strainphlanClades {
 		cpu: 1
   		memory: "10GB"
   		preemptible: 2
+        maxRetries: 3
+        zones: "australia-southeast1-a australia-southeast1-b australia-southeast1-c"
   		disks: "local-disk 100 HDD"
 	}
 
@@ -484,6 +504,8 @@ task strainphlanTree {
 		cpu: 16
   		memory: "104GB"
   		preemptible: 2
+        maxRetries: 3
+        zones: "australia-southeast1-a australia-southeast1-b australia-southeast1-c"
   		disks: "local-disk 100 HDD"
 	}
 }
