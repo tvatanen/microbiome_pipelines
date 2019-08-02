@@ -123,7 +123,7 @@ task qcAdapters {
 	}
 	
 	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "docker.io/tvatanen/metagenomicstools:03072019"
 		cpu: 1
   		memory: "1GB"
   		preemptible: 2
@@ -146,7 +146,7 @@ task qcQualityHuman {
 
 	command {
 		kneaddata --input ${file1} --input ${file2} -o . \
-		-db tools-tvat/DATABASES/HG19 --trimmomatic-options "HEADCROP:15 SLIDINGWINDOW:4:15 MINLEN:50" -t 4 --log ${sample}.log
+		-db tools-tvat-au/DATABASES/HG19 --trimmomatic-options "HEADCROP:15 SLIDINGWINDOW:4:15 MINLEN:50" -t 4 --log ${sample}.log
 		rm *trimmed*
 		rm *bowtie2*
 		
@@ -165,7 +165,7 @@ task qcQualityHuman {
 	}
 	
 	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "docker.io/tvatanen/metagenomicstools:03072019"
 		cpu: 4
   		memory: "24GB"
   		preemptible: 2
@@ -192,9 +192,9 @@ task metaphlan {
 	File ref9
 
 	command {
-    	ls -l /cromwell_root/tools-tvat/DATABASES/METAPHLAN2/db_v20/
+		ls -l /cromwell_root/tools-tvat-au/DATABASES/METAPHLAN2/db_v20/
     	
-    	zcat ${r1} ${r2} ${s1} ${s2} | metaphlan2.py --bowtie2db /cromwell_root/tools-tvat/DATABASES/METAPHLAN2/db_v20 --index v20_m200 --mpa_pkl ${ref1} --input_type multifastq -t rel_ab  --bt2_ps "very-sensitive" --tmp_dir /tmp --ignore_viruses -s ${sample}.sam --bowtie2out ${sample}.bowtie2.out > ${sample}.relative_abundance.txt
+		zcat ${r1} ${r2} ${s1} ${s2} | metaphlan2.py --bowtie2db /cromwell_root/tools-tvat-au/DATABASES/METAPHLAN2/db_v20 --index v20_m200 --mpa_pkl ${ref1} --input_type multifastq -t rel_ab  --bt2_ps "very-sensitive" --tmp_dir /tmp --ignore_viruses -s ${sample}.sam --bowtie2out ${sample}.bowtie2.out > ${sample}.relative_abundance.txt
 
         # Copy bam file
         samtools view -bS ${sample}.sam -o ${sample}.bam
@@ -207,7 +207,7 @@ task metaphlan {
     }
 	
 	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "docker.io/tvatanen/metagenomicstools:03072019"
 		cpu: 1
   		memory: "8GB"
   		preemptible: 2
@@ -238,7 +238,7 @@ task humann2 {
     	zcat ${r1} ${r2} ${s1} ${s2} > ${sample}.fq
     	#prepare output folder
     	mkdir humann2_run
-    	humann2 -i ${sample}.fq -o humann2_run --taxonomic-profile ${taxProfile} --threads 8 --translated-alignment diamond --search-mode uniref90 --gap-fill on --nucleotide-database chocophlan --protein-database /cromwell_root/tools-tvat/DATABASES/HUMANN2/UNIREF --bowtie2 /appdownload/bowtie2-2.3.4.1-linux-x86_64 
+		humann2 -i ${sample}.fq -o humann2_run --taxonomic-profile ${taxProfile} --threads 8 --translated-alignment diamond --search-mode uniref90 --gap-fill on --nucleotide-database chocophlan --protein-database /cromwell_root/tools-tvat-au/DATABASES/HUMANN2/UNIREF --bowtie2 /appdownload/bowtie2-2.3.4.1-linux-x86_64 
     }
     
     output {
@@ -249,7 +249,7 @@ task humann2 {
     }
 	
 	runtime {
-		docker:"asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker:"docker.io/tvatanen/metagenomicstools:03072019"
 		cpu: 8
 	  	memory: if input_file_size > 3 then "64GB" else "24GB" 
   		disks: "local-disk 250 HDD"
@@ -288,7 +288,7 @@ task regroupHumann2 {
 	}	
 
 	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "docker.io/tvatanen/metagenomicstools:03072019"
 		cpu: 1
   		memory: "4GB"
   		preemptible: 2
@@ -319,7 +319,7 @@ task kneaddataReadCountTable {
 	}
 
 	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "docker.io/tvatanen/metagenomicstools:03072019"
 		cpu: 1
   		memory: "4GB"
   		preemptible: 2
@@ -341,7 +341,7 @@ task combineMetaphlan {
 	}
 
 	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "docker.io/tvatanen/metagenomicstools:03072019"
 		cpu: 1
   		memory: "4GB"
   		preemptible: 2
@@ -405,7 +405,7 @@ task combineHumann2 {
 	}
 
 	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "docker.io/tvatanen/metagenomicstools:03072019"
 		cpu: 1
   		memory: "100GB"
   		preemptible: 2
@@ -433,7 +433,7 @@ task strainphlanMarkers {
 	}
 
 	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "docker.io/tvatanen/metagenomicstools:03072019"
 		cpu: 2
   		memory: "10GB"
   		preemptible: 2
@@ -459,7 +459,7 @@ task strainphlanClades {
 	}
 
 	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "docker.io/tvatanen/metagenomicstools:03072019"
 		cpu: 1
   		memory: "10GB"
   		preemptible: 2
@@ -500,7 +500,7 @@ task strainphlanTree {
 	}
 
 	runtime {
-		docker: "asia.gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "docker.io/tvatanen/metagenomicstools:03072019"
 		cpu: 16
   		memory: "104GB"
   		preemptible: 2
