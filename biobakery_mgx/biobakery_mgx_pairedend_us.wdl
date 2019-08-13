@@ -72,7 +72,7 @@ workflow workflowBiobakery {
 	call combineHumann2 {
 		input:
 		filesGeneFamilies=humann2.fileGeneFamilies,
-		filesPathways=humann2.filePathwayAbundamce,
+		filesPathways=humann2.filePathwayAbundance,
 		filesEC=regroupHumann2.fileECAbundance,
 		filesKO=regroupHumann2.fileKOAbundance,
 		filesEggnog=regroupHumann2.fileEggnogAbundance,
@@ -228,7 +228,6 @@ task humann2 {
 	File refUniref90
 	String sample
 	Float input_file_size = size(r1, "G") + size(r2, "G") + size(s1, "G") + size(s2, "G")
-
 	
 	command {    	
     	# get the chocophlan database
@@ -243,14 +242,14 @@ task humann2 {
     
     output {
     	File fileGeneFamilies = "humann2_run/${sample}_genefamilies.tsv"
-    	File filePathwayAbundamce = "humann2_run/${sample}_pathabundance.tsv"
+    	File filePathwayAbundance = "humann2_run/${sample}_pathabundance.tsv"
     	File filePathwayCoverage = "humann2_run/${sample}_pathcoverage.tsv"
     	File fileLog = "humann2_run/${sample}_humann2_temp/${sample}.log"
     }
 	
 	runtime {
 		docker:"gcr.io/osullivan-lab/metagenomicstools:03072019"
-		cpu: 8
+		cpu: 8 
 	  	memory: if input_file_size > 3 then "64GB" else "24GB" 
   		disks: "local-disk 250 HDD"
   		preemptible: 2
