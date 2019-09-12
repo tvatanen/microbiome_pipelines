@@ -124,13 +124,11 @@ task qcAdapters {
 	}
 	
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "gcr.io/microbiome-xavier/metagenomicstools:070318"
 		cpu: 1
   		memory: "1GB"
   		preemptible: 2
-        maxRetries: 3
-        zones: "us-central1-a us-central1-b us-central1-c us-central1-f"
-        disks: "local-disk 40 HDD"
+  		disks: "local-disk 40 SSD"
 	}
 }
 
@@ -147,7 +145,7 @@ task qcQualityHuman {
 
 	command {
 		kneaddata --input ${file1} --input ${file2} -o . \
-		-db tools-tvat-us/DATABASES/HG19 --trimmomatic-options "HEADCROP:15 SLIDINGWINDOW:4:15 MINLEN:50" -t 4 --log ${sample}.log
+		-db tools-rx/DATABASES/HG19 --trimmomatic-options "HEADCROP:15 SLIDINGWINDOW:4:15 MINLEN:50" -t 4
 		rm *trimmed*
 		rm *bowtie2*
 		
@@ -165,13 +163,11 @@ task qcQualityHuman {
 	}
 	
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "gcr.io/microbiome-xavier/metagenomicstools:070318"
 		cpu: 4
   		memory: "24GB"
   		preemptible: 2
-        maxRetries: 3
-        zones: "us-central1-a us-central1-b us-central1-c us-central1-f"
-  		disks: "local-disk 501 HDD"
+  		disks: "local-disk 501 SSD"
 	}
 }
 
@@ -194,13 +190,11 @@ task assemble {
 		File fileContigs = "assemble/${sample}.min500.contigs.fa"
 	}
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "gcr.io/microbiome-xavier/metagenomicstools:081518"
 		cpu: 4
   		memory: "15GB"
   		preemptible: 2
-        maxRetries: 3
-        zones: "us-central1-a us-central1-b us-central1-c us-central1-f"
-  		disks: "local-disk 100 HDD"
+  		disks: "local-disk 100 SSD"
 	}
 }
 
@@ -231,13 +225,11 @@ task predictgenes {
 	}
 
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "gcr.io/microbiome-xavier/metagenomicstools:081518"
 		cpu: 1
   		memory: "7GB"
   		preemptible: 2
-  		maxRetries: 3
-        zones: "us-central1-a us-central1-b us-central1-c us-central1-f"
-  		disks: "local-disk 100 HDD"
+  		disks: "local-disk 100 SSD"
 	}
 }
 
@@ -253,13 +245,11 @@ task mergeGenePredictions {
   	}
 
   	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "gcr.io/microbiome-xavier/metagenomicstools:081518"
 		cpu: 1
   		memory: "7GB"
   		preemptible: 2
-  		maxRetries: 3
-        zones: "us-central1-a us-central1-b us-central1-c us-central1-f"
-  		disks: "local-disk 500 HDD"
+  		disks: "local-disk 500 SSD"
 	}
 }
 
@@ -284,13 +274,11 @@ task cdhit {
   	}
 
   	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "gcr.io/microbiome-xavier/metagenomicstools:082018"
 		cpu: 32
   		memory: "120GB"
   		bootDiskSizeGb: 50
-  		maxRetries: 3
-        zones: "us-central1-a us-central1-b us-central1-c us-central1-f"
-  		disks: "local-disk 501 HDD"
+  		disks: "local-disk 501 SSD"
 	}
 }
 
@@ -340,14 +328,12 @@ task map {
 	}
 	
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "gcr.io/microbiome-xavier/metagenomicstools:082018"
 		cpu: 8
   		memory: "24GB"
   		preemptible: 2
-  		maxRetries: 3
-        zones: "us-central1-a us-central1-b us-central1-c us-central1-f"
   		bootDiskSizeGb: 50
-  		disks: "local-disk 200 HDD"
+  		disks: "local-disk 200 SSD"
 	}
 }
 
@@ -375,13 +361,11 @@ task msp {
 	}
 	
 	runtime {
-		docker: "gcr.io/osullivan-lab/metagenomicstools:03072019"
+		docker: "gcr.io/microbiome-xavier/metagenomicstools:082318"
 		cpu: 32
   		memory: "120GB"
   		bootDiskSizeGb: 50
-  		maxRetries: 3
-        zones: "us-central1-a us-central1-b us-central1-c us-central1-f"
-  		disks: "local-disk 500 HDD"
+  		disks: "local-disk 500 SSD"
 	}
 }
 
@@ -430,13 +414,11 @@ task msp_abundance {
 	}
 	
 	runtime {
-		docker: "gcr.io/osullivan-lab/r-docker:v3.4.4"
+		docker: "gcr.io/microbiome-xavier/r-docker:112518"
 		cpu: 2
   		memory: "10GB"
   		bootDiskSizeGb: 50
-  		maxRetries: 3
-        zones: "us-central1-a us-central1-b us-central1-c us-central1-f"
-  		disks: "local-disk 100 HDD"
+  		disks: "local-disk 100 SSD"
 	}
 
 }
@@ -461,13 +443,11 @@ task msp_matrix {
 	}
 	
 	runtime {
-		docker: "gcr.io/osullivan-lab/r-docker:v3.4.4"
+		docker: "gcr.io/microbiome-xavier/r-docker:112518"
 		cpu: 1
   		memory: "10GB"
   		bootDiskSizeGb: 50
-  		maxRetries: 3
-        zones: "us-central1-a us-central1-b us-central1-c us-central1-f"
-  		disks: "local-disk 100 HDD"
+  		disks: "local-disk 100 SSD"
 	}
 }
 
