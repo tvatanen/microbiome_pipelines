@@ -502,9 +502,9 @@ task strainphlanTree {
 		mkdir ${clade}
 
     	if [ -d strainphlan_ref/${clade} ]; then
-			/appdownload/metaphlan2/strainphlan.py --mpa_pkl ${refPKL} --ifn_samples ${sep=' ' filesSampleMarkers} --ifn_markers ${clade}.markers.fasta --ifn_ref_genomes strainphlan_ref/${clade}/* --output_dir ${clade} --nprocs_main 16 --clades ${clade}
+			/appdownload/metaphlan2/strainphlan.py --mpa_pkl ${refPKL} --ifn_samples ${sep=' ' filesSampleMarkers} --ifn_markers ${clade}.markers.fasta --ifn_ref_genomes strainphlan_ref/${clade}/* --output_dir ${clade} --nprocs_main 16 --clades ${clade} --relaxed_parameters3
 		else
-			/appdownload/metaphlan2/strainphlan.py --mpa_pkl ${refPKL} --ifn_samples ${sep=' ' filesSampleMarkers} --ifn_markers ${clade}.markers.fasta --output_dir ${clade} --nprocs_main 16 --clades ${clade}
+			/appdownload/metaphlan2/strainphlan.py --mpa_pkl ${refPKL} --ifn_samples ${sep=' ' filesSampleMarkers} --ifn_markers ${clade}.markers.fasta --output_dir ${clade} --nprocs_main 16 --clades ${clade} --relaxed_parameters3
 		fi
 
 		tar -czf ${clade}.tar.gz ${clade}
