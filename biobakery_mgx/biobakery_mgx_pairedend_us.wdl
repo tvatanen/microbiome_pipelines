@@ -231,7 +231,7 @@ task humann2 {
 	
 	command {    	
     	# get the chocophlan database
-    	tar -zxvf ${refChocophlan}
+    	tar -xf ${refChocophlan}
 
     	#prepare fastqs
     	zcat ${r1} ${r2} ${s1} ${s2} > ${sample}.fq
@@ -368,7 +368,7 @@ task combineHumann2 {
         cat ${write_lines(filesGeneFamilies)} > filesGeneFamilies_2_download.txt
         mkdir dir_filesGeneFamilies
         cat filesGeneFamilies_2_download.txt | gsutil -m cp -I dir_filesGeneFamilies/
-        tar -zcvf genefamilies.tar.gz dir_filesGeneFamilies
+        tar -zcf genefamilies.tar.gz dir_filesGeneFamilies
         rm -r dir_filesGeneFamilies/
 
         cat ${write_lines(filesPathways)} > filesPathways_2_download.txt
@@ -495,7 +495,7 @@ task strainphlanTree {
 
 	command <<<
 		# get the strainphlan database
-    	tar -zxvf ${refStrainPhlanDB} --strip-components=3
+    	tar -zxf ${refStrainPhlanDB} --strip-components=3
 		
 		/appdownload/metaphlan2/strainphlan_src/extract_markers.py --mpa_pkl ${refPKL} --ifn_markers ${refAllMarkers} --clade ${clade} --ofn_markers ${clade}.markers.fasta
 
