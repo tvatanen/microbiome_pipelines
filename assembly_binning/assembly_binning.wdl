@@ -17,7 +17,7 @@ workflow assembly_binning {
             file1=F1, 
             file2=F2
         }
-        call qcQualityHuman {
+        call kneadData {
             input: 
             sample=sample, 
             file1=qcAdapters.fileR1, 
@@ -26,15 +26,15 @@ workflow assembly_binning {
         call assemble {
             input: 
             sample=sample, 
-            r1=qcQualityHuman.fileR1, 
-            r2=qcQualityHuman.fileR2, 
-            s1=qcQualityHuman.fileS1, 
-            s2=qcQualityHuman.fileS2
+            r1=kneadData.fileR1, 
+            r2=kneadData.fileR2, 
+            s1=kneadData.fileS1, 
+            s2=kneadData.fileS2
         }
         call map { 
             input: 
-            fileR1=qcQualityHuman.fileR1,
-            fileR2=qcQualityHuman.fileR2,
+            fileR1=kneadData.fileR1,
+            fileR2=kneadData.fileR2,
             sample=sample,
             contigs=assemble.fileContigs
         }
@@ -94,18 +94,16 @@ task qcAdapters {
     }
 }
 
-task qcQualityHuman {
+task kneadData {
     File file1
     File file2
     String sample
-    File ref1
-    File ref2
-    File ref3
-    File ref4
-    File ref5
-    File ref6
+    File ref_homo_sapiens
 
     command {
+        mkdir ref_homo_sapiens
+        tar -xf ${ref_homo_sapiens} -C ref_homo_sapiens/
+
         kneaddata --input ${file1} --input ${file2} -o . \
         -db tools-tvat-us/DATABASES/HG19 --trimmomatic-options "HEADCROP:15 SLIDINGWINDOW:4:15 MINLEN:50" -t 4 --log ${sample}.log
 
