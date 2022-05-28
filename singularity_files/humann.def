@@ -22,9 +22,11 @@ echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
 echo "conda activate base" >> ~/.bashrc
 
 # Make RUN commands use `bash --login` (instead of '/bin/sh -c'):
-SHELL ["/bin/bash", "--login", "-c"]
-
+chsh -s /bin/bash
 conda init bash
+
+eval "$(conda shell.bash hook)"
+
 conda activate base
 conda config --add channels defaults
 conda config --add channels bioconda

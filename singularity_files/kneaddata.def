@@ -30,17 +30,15 @@ ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
 echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
 echo "conda activate base" >> ~/.bashrc
 
-# Make RUN commands use `bash --login` (instead of '/bin/sh -c'):
-SHELL ["/bin/bash", "--login", "-c"]
-
 conda init bash
+eval "$(conda shell.bash hook)"
+
 conda config --add channels defaults
 conda config --add channels bioconda
 conda config --add channels conda-forge
 conda config --add channels biobakery
 conda install kneaddata -c biobakery
 
-mkdir /hg37
 %environment
 export PATH=/opt/conda/bin:$PATH
 %runscript
