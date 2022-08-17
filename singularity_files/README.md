@@ -40,7 +40,19 @@ and `REPO_PATH` is the path to this repository.
 run
 
 ```sh
-$ sudo singularity build $CONTAINER_PATH/kneaddata.sif $REPO_PATH/singularity_files/kneaddata.def
+$ sudo singularity build $CONTAINER_PATH/humann.sif $REPO_PATH/singularity_files/humann.def
+```
+
+where `CONTAINER_PATH` is where you want the container to live,
+and `REPO_PATH` is the path to this repository.
+
+
+### PanPhlAn
+
+run
+
+```sh
+$ sudo singularity build $CONTAINER_PATH/panphlan.sif $REPO_PATH/singularity_files/panphlan.def
 ```
 
 where `CONTAINER_PATH` is where you want the container to live,
@@ -62,7 +74,7 @@ I created a shell script and aliased it to `/usr/local/bin/humann`:
 singularity exec /murray/containers/humann.sif humann "$@"
 ```
 
-## Mounting additional files systems
+ Mounting additional files systems
 
 By default, singularity only mounts your working directory and its parents.
 If you need to mount other file systems, use `--bind`. 
