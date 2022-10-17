@@ -1,6 +1,8 @@
 FROM ubuntu:18.04
 
-# $ docker build . -t humann:v3.0.0
+# $ docker build . -t humann:v3.6
+# *OR*
+# $ gcloud builds submit . --timeout 3h --tag gcr.io/osullivan-lab/humann:v3.6
 # $ docker run --rm -it -v `pwd`:/data humann:v3.0.0 /bin/bash
 
 ENV PATH /opt/conda/bin:$PATH
@@ -26,7 +28,7 @@ RUN conda config --add channels defaults
 RUN conda config --add channels bioconda
 RUN conda config --add channels conda-forge
 RUN conda config --add channels biobakery
-RUN conda install humann -c biobakery
+RUN conda install humann=3.6 -c biobakery
 RUN mkdir /humann_db
 RUN humann_databases --download chocophlan full /humann_db --update-config yes
 RUN humann_databases --download uniref uniref90_diamond /humann_db --update-config yes
