@@ -32,7 +32,7 @@ task run_humann {
     }
 
 	runtime {
-		docker: "gcr.io/osullivan-lab/humann:v3.0.0"
+		docker: "gcr.io/osullivan-lab/humann:v3.6"
 		cpu: 8 
 	  	memory: if input_file_size > 3 then "48GB" else "32GB" 
   		disks: "local-disk 250 HDD"

@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 # $ docker build . -t humann:v3.6
 # *OR*
-# $ gcloud builds submit . --timeout 3h --tag gcr.io/osullivan-lab/humann:v3.6
+# $ gcloud builds submit . --timeout 12h --tag gcr.io/osullivan-lab/humann:v3.6
 # $ docker run --rm -it -v `pwd`:/data humann:v3.0.0 /bin/bash
 
 ENV PATH /opt/conda/bin:$PATH
