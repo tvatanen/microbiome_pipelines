@@ -4,8 +4,8 @@ Stage: spython-base
 
 %post
 
-# $ docker build . -t humann:v3.0.0
-# $ docker run --rm -it -v `pwd`:/data humann:v3.0.0 /bin/bash
+# $ docker build . -t humann:v3.6
+# $ docker run --rm -it -v `pwd`:/data humann:v3.6 /bin/bash
 
 PATH=/opt/conda/bin:$PATH
 
