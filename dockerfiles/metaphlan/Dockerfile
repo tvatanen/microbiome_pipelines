@@ -18,7 +18,7 @@ RUN cd cmseq && \
     cd ../ && \
     rm -r cmseq
 
-RUN pip3 install metaphlan==3.0.13
+RUN pip3 install metaphlan==3.1.0
 RUN metaphlan --install
 
 WORKDIR /tmp
