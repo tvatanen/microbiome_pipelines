@@ -33,7 +33,7 @@ task run_metaphlan {
     }
 	
 	runtime {
-		docker: "gcr.io/osullivan-lab/metaphlan:v3.0.12"
+		docker: "gcr.io/osullivan-lab/metaphlan:v3.1"
 		cpu: 1
   		memory: "8GB"
   		preemptible: 2
