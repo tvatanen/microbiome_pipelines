@@ -1,9 +1,16 @@
 # modified from https://github.com/biobakery/biobakery/blob/master/docker/metaphlan/Dockerfile
 FROM ubuntu:18.04
 
+# $ docker build . -t metaphlan:v3.1
+# *OR*
+# $ gcloud builds submit . --timeout 12h --tag gcr.io/osullivan-lab/metaphlan:v3.1
+#
+# $ docker run --rm -it -v `pwd`:/data metaphlan:v3.1 /bin/bash
+
 # also install python version 2 used by bowtie2
 RUN apt-get update && \
-    DEBIAN_FRONTEND="noninteractive" apt-get install -y python python-dev python3 python3-dev python3-pip apt-transport-https openjdk-8-jre wget zip
+    DEBIAN_FRONTEND="noninteractive" apt-get install -y python python-dev python3 python3-dev python3-pip apt-transport-https openjdk-8-jre wget zip zlib1g-dev libbz2-dev liblzma-dev libjpeg-dev
+
 RUN pip3 install boto3 cloudpickle awscli
 RUN apt-get install -y bowtie2
 RUN pip3 install numpy
