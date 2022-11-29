@@ -8,11 +8,12 @@ FROM ubuntu:18.04
 ENV PATH /opt/conda/bin:$PATH
 
 RUN apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
+    zlib1g-dev libbz2-dev liblzma-dev \
     libglib2.0-0 libxext6 libsm6 libxrender1 \
     git mercurial subversion
 
 # install conda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py37_4.10.3-Linux-x86_64.sh -O ~/miniconda.sh && \
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py37_4.12.0-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
     rm ~/miniconda.sh && \
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
