@@ -2,6 +2,9 @@ Bootstrap: docker
 From: ubuntu:18.04
 Stage: spython-base
 
+
+%post
+
 # Note that you'll need to have Bowtie2 indexed human genome in the local build directory
 # (see the bottom of the Dockerfile)
 # $ docker build . -t kneaddata:v0.10.0
@@ -29,8 +32,6 @@ conda config --add channels bioconda
 conda config --add channels conda-forge
 conda config --add channels biobakery
 conda install kneaddata -c biobakery
-
-kneaddata_database --download human_genome bowtie2 /hg37/
 
 %environment
 export PATH=/opt/conda/bin:$PATH
