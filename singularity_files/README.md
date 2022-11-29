@@ -6,14 +6,6 @@ Tested with `singularity-ce version 3.9.7-focal`
 
 ### KneadData
 
-From a directory that contains human genome reference files
-
-- `hg37dec_v0.1.1.bt2`
-- `hg37dec_v0.1.2.bt2`
-- `hg37dec_v0.1.3.bt2`
-- `hg37dec_v0.1.4.bt2`
-- `hg37dec_v0.1.rev.1.bt2`
-- `hg37dec_v0.1.rev.2.bt2`
 
 run
 

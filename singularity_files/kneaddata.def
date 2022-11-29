@@ -33,6 +33,8 @@ conda config --add channels conda-forge
 conda config --add channels biobakery
 conda install kneaddata -c biobakery
 
+kneaddata_database --download human_genome bowtie2 /hg37/
+
 %environment
 export PATH=/opt/conda/bin:$PATH
 %runscript
