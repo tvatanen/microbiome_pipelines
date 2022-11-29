@@ -8,6 +8,7 @@ FROM ubuntu:18.04
 ENV PATH /opt/conda/bin:$PATH
 
 RUN apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
+    zlib1g-dev \
     libglib2.0-0 libxext6 libsm6 libxrender1 \
     git mercurial subversion
 
@@ -27,12 +28,9 @@ RUN conda config --add channels defaults
 RUN conda config --add channels bioconda
 RUN conda config --add channels conda-forge
 RUN conda config --add channels biobakery
+RUN conda install -c anaconda zlib
 RUN conda install kneaddata -c biobakery
 
 RUN mkdir /hg37
-COPY hg37dec_v0.1.1.bt2 /hg37/
-COPY hg37dec_v0.1.2.bt2 /hg37/
-COPY hg37dec_v0.1.3.bt2 /hg37/
-COPY hg37dec_v0.1.4.bt2 /hg37/
-COPY hg37dec_v0.1.rev.1.bt2 /hg37/
-COPY hg37dec_v0.1.rev.2.bt2 /hg37/
+RUN kneaddata_database --download human_genome bowtie2 /hg37/
+
