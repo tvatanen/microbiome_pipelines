@@ -22,13 +22,13 @@ task run_metaphlan {
                   ${fastq_R1},${fastq_R2},${fastq_S1},${fastq_S2} \
                   ${sample_id}.metaphlan.tsv
 
-        samtools view -bS ${sample_id}.sam -o ${sample_id}.bam
+        gzip ${sample_id}.sam
         gzip ${sample_id}.bowtie2.out
     }
     
     output {
     	File metaphlan_out_tsv = "${sample_id}.metaphlan.tsv"
-    	File metaphlan_out_bam = "${sample_id}.bam"
+    	File metaphlan_out_bam = "${sample_id}.sam.gz"
     	File metaphlan_out_bowtie2 = "${sample_id}.bowtie2.out.gz"
     }
 	
