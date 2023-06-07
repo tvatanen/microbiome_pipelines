@@ -5,4 +5,5 @@ channels:
   - biobakery
 dependencies:
   - python=3.8
+  - procps-ng
   - metaphlan=3.1
