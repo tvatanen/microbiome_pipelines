@@ -1,20 +1,23 @@
 Bootstrap: docker
-From: ubuntu:18.04
+From: ubuntu:20.04
 Stage: spython-base
+
+%files
+chocophlan/ /humann_db/chocophlan/
+uniref90/ /humann_db/uniref90/
+utility_mapping/ /humann_db/utility_mapping/
 
 %post
 
-# $ docker build . -t humann:v3.6
-# $ docker run --rm -it -v `pwd`:/data humann:v3.6 /bin/bash
-
+TZ 'America/New_York'
+DEBIAN_FRONTEND noninteractive
 PATH=/opt/conda/bin:$PATH
 
 apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
-libglib2.0-0 libxext6 libsm6 libxrender1 \
-git mercurial subversion
+libglib2.0-0 libxext6 libsm6 libxrender1 git
 
 # install conda
-wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py37_4.10.3-Linux-x86_64.sh -O ~/miniconda.sh && \
+wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
 /bin/bash ~/miniconda.sh -b -p /opt/conda && \
 rm ~/miniconda.sh && \
 ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
@@ -32,11 +35,11 @@ conda config --add channels defaults
 conda config --add channels bioconda
 conda config --add channels conda-forge
 conda config --add channels biobakery
-conda install humann -c biobakery
+conda install humann=3.7 -c biobakery
 mkdir /humann_db
-humann_databases --download chocophlan full /humann_db --update-config yes
-humann_databases --download uniref uniref90_diamond /humann_db --update-config yes
-humann_databases --download utility_mapping full /humann_db --update-config yes
+humann_config --update database_folders nucleotide /humann_db/chocophlan/
+humann_config --update database_folders protein  /humann_db/uniref90/
+humann_config --update database_folders utility_mapping  /humann_db/utility_mapping/
 %environment
 export PATH=/opt/conda/bin:$PATH
 %runscript

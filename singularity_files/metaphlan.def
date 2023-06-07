@@ -23,7 +23,7 @@ python3 setup.py install && \
 cd ../ && \
 rm -r cmseq
 
-pip3 install metaphlan==3.1.0
+pip3 install metaphlan==3.1
 metaphlan --install
 
 cd /tmp

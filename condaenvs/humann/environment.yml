@@ -1,0 +1,8 @@
+name: base
+channels:
+  - bioconda
+  - conda-forge
+  - biobakery
+dependencies:
+  - python=3.8
+  - humann=3.7
