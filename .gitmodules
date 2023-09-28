@@ -1,0 +1,3 @@
+[submodule "biobakery-nextflow"]
+	path = biobakery-nextflow
+	url = git@github.com:Klepac-Ceraj-Lab/biobakery-nextflow.git
